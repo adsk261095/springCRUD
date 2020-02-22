@@ -23,6 +23,12 @@ public class StudentResource {
         return studentRepository.findById(Integer.parseInt(id));
     }
 
+    @GetMapping("/getStudentByName")
+    public Iterable<Student> findStudentByName(@RequestParam(value="name", defaultValue = "Aman") String name){
+//        @RequestParam(value="name", defaultValue = "") String name
+        return studentRepository.findStudentByName(name);
+    }
+
     @PostMapping("/addStudent")
     public Iterable<Student> addStudent(@RequestBody Student student){
         studentRepository.save(student);
