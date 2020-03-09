@@ -2,6 +2,8 @@ package com.github.aman.SpringCRUD.service;
 
 import com.github.aman.SpringCRUD.model.Student;
 import com.github.aman.SpringCRUD.repository.StudentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ public class StudentService {
     @Autowired
     StudentRepository studentRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
+
     @PostConstruct
     @Scheduled(cron = "0 */2 * * * *")
     /*
@@ -26,7 +30,7 @@ public class StudentService {
     public void Db_reader(){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
-        System.out.println("querying DB at: " + formatter.format(date));
+        logger.info("querying DB at: " + formatter.format(date));
         Iterable t = studentRepository.findAll();
         t.forEach(x-> System.out.println(x));
 
