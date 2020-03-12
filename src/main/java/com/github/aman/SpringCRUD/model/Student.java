@@ -10,8 +10,9 @@ public class Student  implements Serializable {
 
     @Id
     @Column(name="ID")
-    @SequenceGenerator(name = "SEQ_GEN", sequenceName = "SEQ_USER", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GEN")
+//    @SequenceGenerator(name = "SEQ_GEN", sequenceName = "SEQ_USER", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+//    , generator = "SEQ_GEN")
     private int id;
 
     @Column(name="Name")

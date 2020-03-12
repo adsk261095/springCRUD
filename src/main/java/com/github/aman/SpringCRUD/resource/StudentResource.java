@@ -33,9 +33,9 @@ public class StudentResource {
     }
 
     //get request
-    @Cacheable(value = "student", key="#result.id")
     @GetMapping("/getStudentByName")
     public Iterable<Student> findStudentByName(@RequestParam(value="name", defaultValue = "Aman") String name){
+        logger.info("Getting student with name: " + name);
         return studentRepository.findStudentByName(name);
     }
 
