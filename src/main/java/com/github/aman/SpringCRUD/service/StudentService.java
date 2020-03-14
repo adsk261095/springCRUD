@@ -2,6 +2,7 @@ package com.github.aman.SpringCRUD.service;
 
 import com.github.aman.SpringCRUD.model.Student;
 import com.github.aman.SpringCRUD.repository.StudentRepository;
+import com.github.aman.SpringCRUD.resource.StudentResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,12 @@ public class StudentService {
         Iterable t = studentRepository.findAll();
         t.forEach(x-> System.out.println(x));
 
+    }
+
+    @Autowired
+    StudentResource studentResource;
+    @Scheduled(cron = "59 59 23 * * *")
+    public void DBHitToday(){
+        System.out.println("number of db hits toaday were: " + studentResource.getTotalReadReq());
     }
 }

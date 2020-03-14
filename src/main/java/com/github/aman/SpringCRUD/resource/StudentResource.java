@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
@@ -19,8 +20,23 @@ public class StudentResource {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    private static int totalReadReq = 0;
+
+    private static void incrementReadCount(){
+        totalReadReq++;
+    }
+    @Scheduled(cron = "0 0 0 * * *")
+    private static void reset(){
+        totalReadReq=0;
+    }
+    public static int getTotalReadReq() {
+        return totalReadReq;
+    }
+
     @GetMapping("/getAllStudent")
     public Iterable<Student> getAllStudents(){
+        incrementReadCount();
+        System.out.println(getTotalReadReq());
         return studentRepository.findAll();
     }
 
@@ -28,6 +44,7 @@ public class StudentResource {
     @Cacheable(value = "student", key="#id")
     @GetMapping("/getStudent")
     public Optional<Student> getStudent(@RequestParam(value="id", defaultValue = "0") String id){
+        incrementReadCount();
         logger.info("Getting student with id: " + id);
         return studentRepository.findById(Integer.parseInt(id));
     }
@@ -35,6 +52,7 @@ public class StudentResource {
     //get request
     @GetMapping("/getStudentByName")
     public Iterable<Student> findStudentByName(@RequestParam(value="name", defaultValue = "Aman") String name){
+        incrementReadCount();
         logger.info("Getting student with name: " + name);
         return studentRepository.findStudentByName(name);
     }

@@ -7,6 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface StudentRepository extends CrudRepository <Student, Integer> {
-    @Query(value="select s from Student s where s.name = ?1")
+//    @Query(value="select s from Student s where s.name = ?1")
     List<Student> findStudentByName(String name);
 }
